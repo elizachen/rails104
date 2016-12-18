@@ -19,6 +19,27 @@ class PostsController < ApplicationController
     end
   end
 
+  def edit
+    @group = Group.find(params[:group_id])
+    @post = Post.find(params[:id])
+  end
+
+  def destroy
+    @Post = Post.find(params[:id])
+    @Post.destroy
+    redirect_to account_posts_path, alert: "One post deleted"
+  end
+
+  def update
+    @group = Group.find(params[:group_id])
+    @post = Post.find(params[:id])
+    if @post.update(post_params)
+      redirect_to account_posts_path, notice: "Update the post successfully"
+    else
+      render :edit
+    end
+  end
+
   private
   def post_params
     params.require(:post).permit(:content)
